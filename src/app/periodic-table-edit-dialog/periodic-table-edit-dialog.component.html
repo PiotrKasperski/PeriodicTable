@@ -1,0 +1,29 @@
+<h2 mat-dialog-title>Edit element</h2>
+<mat-dialog-content>
+    <mat-form-field [formGroup]="element">
+        <mat-label>Number</mat-label>
+        <input matInput formControlName="position" />
+    </mat-form-field>
+    <mat-form-field [formGroup]="element">
+        <mat-label>Name</mat-label>
+        <input matInput formControlName="name" />
+    </mat-form-field>
+    <mat-form-field [formGroup]="element">
+        <mat-label>Weight</mat-label>
+        <input matInput formControlName="weight" />
+    </mat-form-field>
+    <mat-form-field [formGroup]="element">
+        <mat-label>Symbol</mat-label>
+        <input matInput formControlName="symbol" />
+    </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-button (click)="dialogRef.close()">Cancel</button>
+    <button
+        mat-button
+        [mat-dialog-close]="{ old: data, new: element.value }"
+        cdkFocusInitial
+    >
+        Ok
+    </button>
+</mat-dialog-actions>

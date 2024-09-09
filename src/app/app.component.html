@@ -1,7 +1,5 @@
 @if (periodicElements$ | async; as periodicElements) {
-    <app-periodic-table
-        [periodicElements]="periodicElements"
-    ></app-periodic-table>
+    <app-periodic-table [data]="periodicElements"></app-periodic-table>
 } @else {
     <mat-spinner></mat-spinner>
 }
