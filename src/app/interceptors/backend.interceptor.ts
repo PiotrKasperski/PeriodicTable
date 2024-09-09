@@ -15,7 +15,6 @@ const ELEMENT_DATA: PeriodicElement[] = [
     { position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne' },
 ]
 export const backendInterceptor: HttpInterceptorFn = (req, next) => {
-    console.log(req)
     if (req.url === '/elements' && req.method === 'GET')
         return of(
             new HttpResponse({
