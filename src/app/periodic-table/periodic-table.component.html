@@ -26,3 +26,7 @@
         (click)="onRowClicked(row)"
     ></tr>
 </table>
+<mat-form-field [formGroup]="filter">
+    <mat-label>Filter</mat-label>
+    <input matInput formControlName="value" />
+</mat-form-field>
