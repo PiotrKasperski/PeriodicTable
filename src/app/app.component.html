@@ -1,1 +1,7 @@
-<app-periodic-table [periodicElements]="periodicElements"></app-periodic-table>
+@if (periodicElements$ | async; as periodicElements) {
+    <app-periodic-table
+        [periodicElements]="periodicElements"
+    ></app-periodic-table>
+} @else {
+    <mat-spinner></mat-spinner>
+}
