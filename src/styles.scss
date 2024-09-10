@@ -2,12 +2,14 @@
 
 @use './styles/theme' as theme;
 @use './app/app.theme' as app;
+@use './app/periodic-table/periodic-table.theme' as periodic-table;
 
 @include mat.core();
 
 :root {
   @include mat.all-component-themes(theme.$dark-theme);
   @include app.theme(theme.$dark-theme);
+  @include periodic-table.theme(theme.$dark-theme)
 }
 
 /* You can add global styles to this file, and also import other style files */
