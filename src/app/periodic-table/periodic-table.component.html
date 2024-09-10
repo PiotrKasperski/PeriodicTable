@@ -31,7 +31,11 @@
             (click)="onRowClicked(row)"
         ></tr>
     </table>
-    <mat-form-field [formGroup]="filter">
+    <mat-form-field
+        [formGroup]="filter"
+        appearance="outline"
+        class="filter-input"
+    >
         <mat-label>Filter</mat-label>
         <input matInput formControlName="value" />
     </mat-form-field>
