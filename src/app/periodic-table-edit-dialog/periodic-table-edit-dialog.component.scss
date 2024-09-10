@@ -1,0 +1,33 @@
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.mat-mdc-dialog-content {
+  display: flex;
+  gap: 5px;
+}
+
+.mat-mdc-form-field {
+  margin-top: 10px;
+}
+
+.mat-mdc-dialog-actions {
+  flex-direction: row-reverse;
+  justify-content: flex-start;
+}
+
+::ng-deep .cdk-overlay-dark-backdrop {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+@media(max-width: 600px) {
+  .mat-mdc-dialog-content {
+    flex-direction: column;
+  }
+}

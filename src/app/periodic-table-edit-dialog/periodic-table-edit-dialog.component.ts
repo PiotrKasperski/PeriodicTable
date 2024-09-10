@@ -39,4 +39,7 @@ export class PeriodicTableEditDialogComponent {
         symbol: this.data.symbol,
         weight: this.data.weight,
     })
+    submitDialog(): void {
+        this.dialogRef.close({ old: this.data, new: this.element.value })
+    }
 }
