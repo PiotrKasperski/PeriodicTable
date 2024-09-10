@@ -40,19 +40,13 @@ export class AppComponent implements OnInit, OnDestroy {
 
     theme = this.fb.group({ isDark: this.themeService.isDarkTheme() })
 
-    @HostBinding('class')
-    currentTheme: 'light-theme' | 'dark-theme' = this.themeService.isDarkTheme()
-        ? 'dark-theme'
-        : 'light-theme'
-
     ngOnInit(): void {
         this.theme
             .get('isDark')
             ?.valueChanges.pipe(takeUntil(this.destroy$))
-            .subscribe(isDark => this.themeService.setTheme(isDark ?? false))
-        this.themeService.currentTheme$
-            .pipe(takeUntil(this.destroy$))
-            .subscribe(theme => (this.currentTheme = theme))
+            .subscribe(isDark =>
+                this.themeService.setDarkTheme(isDark ?? false)
+            )
     }
     ngOnDestroy(): void {
         this.destroy$.next()
