@@ -1,29 +1,43 @@
-<h2 mat-dialog-title>Edit element</h2>
+<h2 mat-dialog-title>Edit {{ data.name }}</h2>
 <mat-dialog-content>
-    <mat-form-field [formGroup]="element">
+    <mat-form-field [formGroup]="element" appearance="outline">
         <mat-label>Number</mat-label>
-        <input matInput formControlName="position" />
+        <input
+            matNativeControl
+            type="number"
+            formControlName="position"
+            (keydown.enter)="submitDialog()"
+        />
     </mat-form-field>
-    <mat-form-field [formGroup]="element">
+    <mat-form-field [formGroup]="element" appearance="outline">
         <mat-label>Name</mat-label>
-        <input matInput formControlName="name" />
+        <input
+            matNativeControl
+            type="text"
+            formControlName="name"
+            (keydown.enter)="submitDialog()"
+        />
     </mat-form-field>
-    <mat-form-field [formGroup]="element">
+    <mat-form-field [formGroup]="element" appearance="outline">
         <mat-label>Weight</mat-label>
-        <input matInput formControlName="weight" />
+        <input
+            matNativeControl
+            type="number"
+            formControlName="weight"
+            (keydown.enter)="submitDialog()"
+        />
     </mat-form-field>
-    <mat-form-field [formGroup]="element">
+    <mat-form-field [formGroup]="element" appearance="outline">
         <mat-label>Symbol</mat-label>
-        <input matInput formControlName="symbol" />
+        <input
+            matNativeControl
+            type="text"
+            formControlName="symbol"
+            (keydown.enter)="submitDialog()"
+        />
     </mat-form-field>
 </mat-dialog-content>
 <mat-dialog-actions>
+    <button mat-button (click)="submitDialog()" cdkFocusInitial>Ok</button>
     <button mat-button (click)="dialogRef.close()">Cancel</button>
-    <button
-        mat-button
-        [mat-dialog-close]="{ old: data, new: element.value }"
-        cdkFocusInitial
-    >
-        Ok
-    </button>
 </mat-dialog-actions>
