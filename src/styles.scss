@@ -1,17 +1,21 @@
 @use '@angular/material' as mat;
 
 @use './styles/theme' as theme;
+@use './app/app.theme' as app;
+
 @include mat.core();
 
 :root {
-  @include mat.all-component-themes(theme.$dark-theme)
+  @include mat.all-component-themes(theme.$dark-theme);
+  @include app.theme(theme.$dark-theme);
 }
 
 /* You can add global styles to this file, and also import other style files */
 
 
 
-html, body {
+html,
+body {
   height: 100%;
 }
 

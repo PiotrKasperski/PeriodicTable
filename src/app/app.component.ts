@@ -4,6 +4,7 @@ import { PeriodicTableComponent } from './periodic-table/periodic-table.componen
 import { ElementsApiService } from './services/elements-api.service'
 import { CommonModule } from '@angular/common'
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
+import { MatToolbarModule } from '@angular/material/toolbar'
 
 @Component({
     selector: 'app-root',
@@ -13,6 +14,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
         PeriodicTableComponent,
         CommonModule,
         MatProgressSpinnerModule,
+        MatToolbarModule,
     ],
     templateUrl: './app.component.html',
     styleUrl: './app.component.scss',

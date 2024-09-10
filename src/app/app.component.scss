@@ -1,0 +1,11 @@
+.loading-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+}
+
+mat-spinner {
+  width: 50px !important;
+}
