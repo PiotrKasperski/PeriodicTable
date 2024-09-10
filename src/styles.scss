@@ -1,19 +1,35 @@
 @use '@angular/material' as mat;
-
+mat.$theme-ignore-duplication-warnings: true;
 @use './styles/theme' as theme;
 @use './app/app.theme' as app;
 @use './app/periodic-table/periodic-table.theme' as periodic-table;
 
 @include mat.core();
 
+
+@mixin set-components-theme($theme) {
+  @include mat.all-component-colors($theme);
+  @include app.theme($theme);
+  @include periodic-table.theme($theme);
+
+}
+
 :root {
   @include mat.all-component-themes(theme.$dark-theme);
-  @include app.theme(theme.$dark-theme);
-  @include periodic-table.theme(theme.$dark-theme)
+
+  .light-theme {
+    @include set-components-theme(theme.$light-theme);
+    background: mat.get-theme-color(theme.$light-theme, background);
+  }
+
+  .dark-theme {
+    @include set-components-theme(theme.$dark-theme);
+    background-color: mat.get-theme-color(theme.$dark-theme, background);
+
+  }
 }
 
 /* You can add global styles to this file, and also import other style files */
-
 
 
 html,
@@ -24,5 +40,5 @@ body {
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
-  background: mat.get-theme-color(theme.$dark-theme, background);
+  //background: mat.get-theme-color(theme.$dark-theme, background);
 }

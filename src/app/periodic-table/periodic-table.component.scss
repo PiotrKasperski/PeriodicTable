@@ -1,12 +1,22 @@
 .table-card {
   width: 98vw;
   margin: auto;
-  padding-top: 8px;
   margin-top: 20px;
+
+}
+
+.mat-mdc-table {
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+.mat-mdc-header-row .mat-mdc-header-cell {
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
 }
 
 .filter-input {
-  margin: 10px 10px 0px;
+  margin: 20px 10px 0px;
 }
 
 .mat-mdc-row .mat-mdc-cell {

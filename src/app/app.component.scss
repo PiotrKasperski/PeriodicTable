@@ -9,3 +9,14 @@
 mat-spinner {
   width: 50px !important;
 }
+
+.mat-toolbar {
+  display: flex;
+  justify-content: space-between;
+}
+
+.app-container {
+  min-height: 100%;
+  min-width: 100%;
+  top: 0px
+}
