@@ -15,6 +15,7 @@ import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatInputModule } from '@angular/material/input'
 import { FormBuilder, FormControl, ReactiveFormsModule } from '@angular/forms'
 import { debounceTime, filter } from 'rxjs'
+import { MatCardModule } from '@angular/material/card'
 
 @Component({
     selector: 'app-periodic-table',
@@ -24,6 +25,7 @@ import { debounceTime, filter } from 'rxjs'
         MatFormFieldModule,
         MatInputModule,
         ReactiveFormsModule,
+        MatCardModule,
     ],
     templateUrl: './periodic-table.component.html',
     styleUrl: './periodic-table.component.scss',
