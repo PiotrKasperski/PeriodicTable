@@ -8,3 +8,12 @@
 .filter-input {
   margin: 10px 10px 0px;
 }
+
+.mat-mdc-row .mat-mdc-cell {
+  cursor: pointer;
+}
+
+.mat-mdc-row:hover .mat-mdc-cell {
+  border-top: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+}
