@@ -1,9 +1,7 @@
 import {
     Component,
-    computed,
     inject,
     input,
-    OnDestroy,
     OnInit,
     signal,
     WritableSignal,
@@ -15,15 +13,7 @@ import { PeriodicTableEditDialogComponent } from '../periodic-table-edit-dialog/
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatInputModule } from '@angular/material/input'
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms'
-import {
-    combineLatest,
-    debounceTime,
-    map,
-    Observable,
-    startWith,
-    Subject,
-    takeUntil,
-} from 'rxjs'
+import { combineLatest, debounceTime, map, Observable, startWith } from 'rxjs'
 import { MatCardModule } from '@angular/material/card'
 import { HighlightPipe } from '../pipes/highlight.pipe'
 import { CommonModule } from '@angular/common'

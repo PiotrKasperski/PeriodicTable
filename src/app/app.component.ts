@@ -1,10 +1,4 @@
-import {
-    Component,
-    HostBinding,
-    inject,
-    OnDestroy,
-    OnInit,
-} from '@angular/core'
+import { Component, inject, OnDestroy, OnInit } from '@angular/core'
 import { RouterOutlet } from '@angular/router'
 import { PeriodicTableComponent } from './periodic-table/periodic-table.component'
 import { ElementsApiService } from './services/elements-api.service'
@@ -12,7 +6,7 @@ import { CommonModule } from '@angular/common'
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 import { MatToolbarModule } from '@angular/material/toolbar'
 import { MatSlideToggleModule } from '@angular/material/slide-toggle'
-import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms'
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms'
 import { Subject, takeUntil } from 'rxjs'
 import { ThemeService } from './services/theme.service'
 
@@ -40,19 +34,13 @@ export class AppComponent implements OnInit, OnDestroy {
 
     theme = this.fb.group({ isDark: this.themeService.isDarkTheme() })
 
-    @HostBinding('class')
-    currentTheme: 'light-theme' | 'dark-theme' = this.themeService.isDarkTheme()
-        ? 'dark-theme'
-        : 'light-theme'
-
     ngOnInit(): void {
         this.theme
             .get('isDark')
             ?.valueChanges.pipe(takeUntil(this.destroy$))
-            .subscribe(isDark => this.themeService.setTheme(isDark ?? false))
-        this.themeService.currentTheme$
-            .pipe(takeUntil(this.destroy$))
-            .subscribe(theme => (this.currentTheme = theme))
+            .subscribe(isDark =>
+                this.themeService.setDarkTheme(isDark ?? false)
+            )
     }
     ngOnDestroy(): void {
         this.destroy$.next()
