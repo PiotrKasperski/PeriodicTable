@@ -2,9 +2,8 @@ import { inject, Injectable } from '@angular/core'
 import { APP_RX_STATE } from '../states/app.state'
 import { rxActions } from '@rx-angular/state/actions'
 import { PeriodicElement } from '../interfaces/periodic-element'
-import { elementAt, exhaustMap, map, Subject, switchMap, tap } from 'rxjs'
+import { exhaustMap, tap } from 'rxjs'
 import { ElementsApiService } from './elements-api.service'
-import { state } from '@angular/animations'
 
 @Injectable({
     providedIn: 'root',
@@ -47,7 +46,6 @@ export class AppStateActionsService {
         )
     )
 
-    constructor() {}
     load() {
         this.actions.load()
     }

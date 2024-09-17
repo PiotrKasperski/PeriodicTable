@@ -1,17 +1,13 @@
-import { Component, Inject, inject, OnDestroy, OnInit } from '@angular/core'
+import { Component, inject, OnInit } from '@angular/core'
 import { RouterOutlet } from '@angular/router'
 import { PeriodicTableComponent } from './periodic-table/periodic-table.component'
-import { ElementsApiService } from './services/elements-api.service'
 import { CommonModule } from '@angular/common'
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 import { MatToolbarModule } from '@angular/material/toolbar'
 import { MatSlideToggleModule } from '@angular/material/slide-toggle'
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms'
-import { connect, map, Subject, takeUntil, tap } from 'rxjs'
+import { map, tap } from 'rxjs'
 import { ThemeService } from './services/theme.service'
-import { rxState } from '@rx-angular/state'
-import { PeriodicElement } from './interfaces/periodic-element'
-import { state } from '@angular/animations'
 import { APP_RX_STATE } from './states/app.state'
 import { AppStateActionsService } from './services/app-state-actions.service'
 
@@ -30,9 +26,7 @@ import { AppStateActionsService } from './services/app-state-actions.service'
     templateUrl: './app.component.html',
     styleUrl: './app.component.scss',
 })
-export class AppComponent implements OnInit, OnDestroy {
-    private destroy$ = new Subject<void>()
-
+export class AppComponent implements OnInit {
     private appStateActions = inject(AppStateActionsService)
     private state = inject(APP_RX_STATE)
     private fb = inject(FormBuilder)
@@ -51,8 +45,5 @@ export class AppComponent implements OnInit, OnDestroy {
                 tap(isDark => this.themeService.setDarkTheme(isDark))
             )
         )
-    }
-    ngOnDestroy(): void {
-        this.destroy$.next()
     }
 }

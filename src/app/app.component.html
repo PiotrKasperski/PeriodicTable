@@ -5,7 +5,7 @@
             >Dark theme</mat-slide-toggle
         ></mat-toolbar
     >
-    @if (!(isLoading$ | async)) {
+    @if ((isLoading$ | async) === false) {
         <app-periodic-table></app-periodic-table>
     } @else {
         <div class="loading-spinner">

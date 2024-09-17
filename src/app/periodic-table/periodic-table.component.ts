@@ -1,27 +1,16 @@
-import {
-    Component,
-    inject,
-    Input,
-    input,
-    OnInit,
-    signal,
-    WritableSignal,
-} from '@angular/core'
+import { Component, inject } from '@angular/core'
 import { PeriodicElement } from '../interfaces/periodic-element'
 import { MatTableDataSource, MatTableModule } from '@angular/material/table'
-import { MatDialog, MatDialogRef } from '@angular/material/dialog'
+import { MatDialog } from '@angular/material/dialog'
 import { PeriodicTableEditDialogComponent } from '../periodic-table-edit-dialog/periodic-table-edit-dialog.component'
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatInputModule } from '@angular/material/input'
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms'
 import {
     combineLatest,
-    concatMap,
-    connect,
     debounceTime,
     map,
     merge,
-    Observable,
     startWith,
     Subject,
     switchMap,
@@ -31,9 +20,7 @@ import {
 import { MatCardModule } from '@angular/material/card'
 import { HighlightPipe } from '../pipes/highlight.pipe'
 import { CommonModule } from '@angular/common'
-import { toObservable } from '@angular/core/rxjs-interop'
 import { APP_RX_STATE } from '../states/app.state'
-import { updateSourceFile } from 'typescript'
 import { AppStateActionsService } from '../services/app-state-actions.service'
 
 @Component({
@@ -51,7 +38,7 @@ import { AppStateActionsService } from '../services/app-state-actions.service'
     templateUrl: './periodic-table.component.html',
     styleUrl: './periodic-table.component.scss',
 })
-export class PeriodicTableComponent implements OnInit {
+export class PeriodicTableComponent {
     private state = inject(APP_RX_STATE)
     private dialog = inject(MatDialog)
     private fb = inject(FormBuilder)
@@ -75,7 +62,9 @@ export class PeriodicTableComponent implements OnInit {
     private updatedElements$ = merge(
         this.elements$,
         this.dialogClose$.pipe(
-            tap(update => this.appStateActions.update(update)),
+            tap(update => {
+                if (update) this.appStateActions.update(update)
+            }),
             withLatestFrom(this.elements$),
             map(([_, dataSource]) => dataSource)
         )
@@ -95,8 +84,6 @@ export class PeriodicTableComponent implements OnInit {
             return dataSource
         })
     )
-
-    ngOnInit(): void {}
 
     onRowClicked(element: PeriodicElement): void {
         this.dialogClick$.next(element)
