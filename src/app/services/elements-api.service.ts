@@ -12,4 +12,10 @@ export class ElementsApiService {
     getAllElements(): Observable<PeriodicElement[]> {
         return this.http.get<PeriodicElement[]>('/elements')
     }
+    updateElement(updateDto: {
+        new: PeriodicElement
+        old: PeriodicElement
+    }): any {
+        throw new Error('Method not implemented.')
+    }
 }

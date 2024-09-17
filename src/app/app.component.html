@@ -5,8 +5,8 @@
             >Dark theme</mat-slide-toggle
         ></mat-toolbar
     >
-    @if (periodicElements$ | async; as periodicElements) {
-        <app-periodic-table [data]="periodicElements"></app-periodic-table>
+    @if (!(isLoading$ | async)) {
+        <app-periodic-table></app-periodic-table>
     } @else {
         <div class="loading-spinner">
             <mat-spinner></mat-spinner>
