@@ -1,11 +1,4 @@
-import {
-    Component,
-    inject,
-    input,
-    OnInit,
-    signal,
-    WritableSignal,
-} from '@angular/core'
+import { Component, inject } from '@angular/core'
 import { PeriodicElement } from '../interfaces/periodic-element'
 import { MatTableDataSource, MatTableModule } from '@angular/material/table'
 import { MatDialog } from '@angular/material/dialog'
@@ -13,11 +6,22 @@ import { PeriodicTableEditDialogComponent } from '../periodic-table-edit-dialog/
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatInputModule } from '@angular/material/input'
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms'
-import { combineLatest, debounceTime, map, Observable, startWith } from 'rxjs'
+import {
+    combineLatest,
+    debounceTime,
+    map,
+    merge,
+    startWith,
+    Subject,
+    switchMap,
+    tap,
+    withLatestFrom,
+} from 'rxjs'
 import { MatCardModule } from '@angular/material/card'
 import { HighlightPipe } from '../pipes/highlight.pipe'
 import { CommonModule } from '@angular/common'
-import { toObservable } from '@angular/core/rxjs-interop'
+import { APP_RX_STATE } from '../states/app.state'
+import { AppStateActionsService } from '../services/app-state-actions.service'
 
 @Component({
     selector: 'app-periodic-table',
@@ -34,23 +38,45 @@ import { toObservable } from '@angular/core/rxjs-interop'
     templateUrl: './periodic-table.component.html',
     styleUrl: './periodic-table.component.scss',
 })
-export class PeriodicTableComponent implements OnInit {
-    dialog = inject(MatDialog)
-    fb = inject(FormBuilder)
-
-    data = input.required<PeriodicElement[]>()
+export class PeriodicTableComponent {
+    private state = inject(APP_RX_STATE)
+    private dialog = inject(MatDialog)
+    private fb = inject(FormBuilder)
+    private appStateActions = inject(AppStateActionsService)
 
     displayedColumns: string[] = ['position', 'name', 'weight', 'symbol']
-    filter = this.fb.group({ value: '' })
+    filterForm = this.fb.group({ value: '' })
 
-    periodicElements: WritableSignal<MatTableDataSource<PeriodicElement>> =
-        signal(new MatTableDataSource())
-    activeFilter$: Observable<string> = this.filter.valueChanges.pipe(
+    private dialogClick$ = new Subject<PeriodicElement>()
+    private dialogClose$ = this.dialogClick$.pipe(
+        switchMap(element =>
+            this.dialog
+                .open(PeriodicTableEditDialogComponent, { data: element })
+                .afterClosed()
+        )
+    )
+    private elements$ = this.state
+        .select('elements')
+        .pipe(map(elements => new MatTableDataSource(elements)))
+
+    private updatedElements$ = merge(
+        this.elements$,
+        this.dialogClose$.pipe(
+            tap(update => {
+                if (update) this.appStateActions.update(update)
+            }),
+            withLatestFrom(this.elements$),
+            map(([_, dataSource]) => dataSource)
+        )
+    )
+
+    private activeFilter$ = this.filterForm.valueChanges.pipe(
         debounceTime(2000),
         map(filter => filter.value ?? '')
     )
+
     displayedElements$ = combineLatest([
-        toObservable(this.periodicElements),
+        this.updatedElements$,
         this.activeFilter$.pipe(startWith('')),
     ]).pipe(
         map(([dataSource, filter]) => {
@@ -58,29 +84,8 @@ export class PeriodicTableComponent implements OnInit {
             return dataSource
         })
     )
-    ngOnInit(): void {
-        this.periodicElements.update(elements => {
-            elements.data = this.data()
-            return elements
-        })
-    }
+
     onRowClicked(element: PeriodicElement): void {
-        const dialogRef = this.dialog.open(PeriodicTableEditDialogComponent, {
-            data: element,
-        })
-        dialogRef.afterClosed().subscribe(result => {
-            if (result) this.updateElements(result)
-        })
-    }
-    private updateElements(update: {
-        old: PeriodicElement
-        new: PeriodicElement
-    }) {
-        this.periodicElements.update(elements => {
-            elements.data = elements.data.map(element =>
-                element === update.old ? update.new : element
-            )
-            return elements
-        })
+        this.dialogClick$.next(element)
     }
 }
