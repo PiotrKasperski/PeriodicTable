@@ -7,7 +7,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 import { MatToolbarModule } from '@angular/material/toolbar'
 import { MatSlideToggleModule } from '@angular/material/slide-toggle'
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms'
-import { connect, Subject, takeUntil } from 'rxjs'
+import { connect, map, Subject, takeUntil, tap } from 'rxjs'
 import { ThemeService } from './services/theme.service'
 import { rxState } from '@rx-angular/state'
 import { PeriodicElement } from './interfaces/periodic-element'
@@ -33,12 +33,10 @@ import { AppStateActionsService } from './services/app-state-actions.service'
 export class AppComponent implements OnInit, OnDestroy {
     private destroy$ = new Subject<void>()
 
-    elementsApi = inject(ElementsApiService)
-    appStateActions = inject(AppStateActionsService)
+    private appStateActions = inject(AppStateActionsService)
     private state = inject(APP_RX_STATE)
-
-    fb = inject(FormBuilder)
-    themeService = inject(ThemeService)
+    private fb = inject(FormBuilder)
+    private themeService = inject(ThemeService)
     periodicElements$ = this.state.select('elements')
     isLoading$ = this.state.select('isLoading')
 
@@ -46,15 +44,13 @@ export class AppComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.appStateActions.load()
-        //this.state.connect('elements', this.elementsApi.getAllElements())
-        this.theme
-            .get('isDark')
-            ?.valueChanges.pipe(takeUntil(this.destroy$))
-            .subscribe(isDark =>
-                this.themeService.setDarkTheme(isDark ?? false)
+        this.state.connect(
+            'isDarkTheme',
+            this.theme.valueChanges.pipe(
+                map(value => value.isDark ?? false),
+                tap(isDark => this.themeService.setDarkTheme(isDark))
             )
-        this.periodicElements$.subscribe(e => console.log(e))
-        this.isLoading$.subscribe(e => console.log(e))
+        )
     }
     ngOnDestroy(): void {
         this.destroy$.next()
